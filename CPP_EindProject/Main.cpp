@@ -11,7 +11,7 @@
 int main()
 {
 	Renderer* _renderer = new Renderer(1920, 1080, "Game");
-	Entity* _player = new Entity(50, 725, 10, 10, 5, sf::Color::Green);
+	Entity* _player = new Entity(50, 700, 50, 50, 5, sf::Color::Green);
 	PlayerController* _controller = new PlayerController(_player);
 	sf::RenderWindow window(_renderer->GetVideo(), _renderer->GetText());
 
@@ -28,12 +28,9 @@ int main()
 		objs.push_back(obj);
 	}
 
-	sf::Clock dttime;
-	float deltatime;
-
 	while (window.isOpen()) {
 
-		deltatime = dttime.restart().asSeconds() * 100;
+		//deltatime = dttime.restart().asSeconds() * 100;
 
 		sf::Event event;
 		while (window.pollEvent(event))
@@ -46,7 +43,7 @@ int main()
 
 		for (Object* o : objs) o->draw(&window);
 		_player->Draw(&window);
-		_controller->Update(deltatime,objs[0]);
+		_controller->Update(objs[0]);
 
 		//Displays the screen
 		window.display();

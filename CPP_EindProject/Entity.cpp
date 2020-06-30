@@ -22,10 +22,10 @@ sf::Vector2f Entity::GetPosition()
 	return sf::Vector2f(x, y);
 }
 
-void Entity::UpdatePosition(sf::Vector2f pos, float dt)
+void Entity::UpdatePosition(sf::Vector2f pos)
 {
-	x += pos.x * speed * dt;
-	y += pos.y * speed * dt;
+	x += pos.x * speed;
+	y += pos.y * speed;
 }
 
 sf::RectangleShape* Entity::GetShape()

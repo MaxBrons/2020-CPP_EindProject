@@ -11,11 +11,10 @@ public:
     ~Entity();
     void Draw(sf::RenderWindow* window);
     sf::Vector2f GetPosition();
-    void UpdatePosition(sf::Vector2f pos, float dt);
+    void UpdatePosition(sf::Vector2f pos);
     sf::RectangleShape* GetShape();
 
 private:
-    Renderer* _renderer;
     sf::RectangleShape* _body;
     sf::Color _color;
     float x;

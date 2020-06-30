@@ -8,7 +8,7 @@ class PlayerController
 public:
 	PlayerController(Entity* player);
 	~PlayerController();
-	void Update(float dt, Object* obj);
+	void Update(Object* obj);
 	void SetPlayer(Entity* player);
 
 private:
