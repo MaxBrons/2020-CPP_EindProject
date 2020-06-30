@@ -2,26 +2,54 @@
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
+#include <vector>
+#include "Renderer.h"
+#include "Entity.h"
+#include "PlayerController.h"
+#include "Object.h"
 
 int main()
 {
-    sf::RenderWindow window(sf::VideoMode(200, 200), "SFML works!");
-    sf::RectangleShape shape(sf::Vector2f(100,100));
-    shape.setFillColor(sf::Color::Green);
+	Renderer* _renderer = new Renderer(1920, 1080, "Game");
+	Entity* _player = new Entity(50, 725, 10, 10, 5, sf::Color::Green);
+	PlayerController* _controller = new PlayerController(_player);
+	sf::RenderWindow window(_renderer->GetVideo(), _renderer->GetText());
 
-    while (window.isOpen())
-    {
-        sf::Event event;
-        while (window.pollEvent(event))
-        {
-            if (event.type == sf::Event::Closed)
-                window.close();
-        }
+	//static shapes in scene
+	std::vector<Object*> objs;
+	sf::Vector2f* startpos = new sf::Vector2f(0, 750);
+	sf::Color col = sf::Color::Red;
+	float objectWidth = 50;
+	for (int i = 0; i < window.getSize().x / objectWidth; i++)
+	{
+		if (col == sf::Color::Red) col = sf::Color::Blue;
+		else col = sf::Color::Red;
+		Object* obj = new Object(sf::Vector2f(50, 50), sf::Vector2f(i * objectWidth, startpos->y), col);
+		objs.push_back(obj);
+	}
 
-        window.clear();
-        window.draw(shape);
-        window.display();
-    }
+	sf::Clock dttime;
+	float deltatime;
 
-    return 0;
+	while (window.isOpen()) {
+
+		deltatime = dttime.restart().asSeconds() * 100;
+
+		sf::Event event;
+		while (window.pollEvent(event))
+		{
+			if (event.type == sf::Event::Closed)
+				window.close();
+		}
+		//Clears the window
+		window.clear();
+
+		for (Object* o : objs) o->draw(&window);
+		_player->Draw(&window);
+		_controller->Update(deltatime,objs[0]);
+
+		//Displays the screen
+		window.display();
+	}
+	return 0;
 }
